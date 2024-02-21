@@ -93,6 +93,7 @@ describe("TokenSwap Contract Test\n", () => {
 
     it("should revert if sender has insufficient balance", async function () {
       const { tSwap, addr1 } = await loadFixture(deployTokenSwap);
+
       await expect(
         tSwap.connect(addr1).swapFromCTX(ethers.parseEther("1"))
       ).to.be.revertedWith("Insufficient balance");
