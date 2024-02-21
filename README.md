@@ -1,6 +1,6 @@
 # Testing the TokenSwap Contract with Remix
 
-To test the `TokenSwap` contract with Remix, you can follow these steps:
+You can use Remix to test the `TokenSwap` contract by doing the following steps:
 
 1. **Compile Contracts**: Compile all the contracts including `TokenSwap.sol`, `CohortXToken.sol`, and `Web3Bridge.sol` in Remix.
 
