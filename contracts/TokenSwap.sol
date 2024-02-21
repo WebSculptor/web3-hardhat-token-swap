@@ -3,8 +3,8 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-import "./CohortXToken.sol";
-import "./Web3BridgeToken.sol";
+import "./tokens/CohortXToken.sol";
+import "./tokens/Web3BridgeToken.sol";
 
 contract TokenSwap {
     address payable admin;
