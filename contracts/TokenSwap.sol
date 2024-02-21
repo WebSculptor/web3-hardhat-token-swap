@@ -10,13 +10,16 @@ contract TokenSwap {
     address payable admin;
     uint256 public ratioAX;
     uint256 public fees;
+
     CohortXToken public tokenCTX;
     Web3BridgeToken public tokenWCX;
 
     constructor(address _tokenCTX, address _tokenWCX) {
         admin = payable(msg.sender);
+
         tokenCTX = CohortXToken(_tokenCTX);
         tokenWCX = Web3BridgeToken(_tokenWCX);
+
         tokenCTX.approve(address(this), type(uint256).max);
         tokenWCX.approve(address(this), type(uint256).max);
     }
@@ -42,14 +45,14 @@ contract TokenSwap {
         return fees;
     }
 
-    function swapFromCTX(uint256 amountTKA) public returns (uint256) {
-        require(amountTKA > 0, "Amount must be greater than zero");
+    function swapFromCTX(uint256 _amount) public returns (uint256) {
+        require(_amount > 0, "Amount must be greater than zero");
         require(
-            tokenCTX.balanceOf(msg.sender) >= amountTKA,
+            tokenCTX.balanceOf(msg.sender) >= _amount,
             "Insufficient balance"
         );
 
-        uint256 exchangeA = (amountTKA * ratioAX) / 100;
+        uint256 exchangeA = (_amount * ratioAX) / 100;
         uint256 exchangeAmount = exchangeA - (exchangeA * fees) / 100;
         require(
             exchangeAmount > 0,
@@ -60,19 +63,19 @@ contract TokenSwap {
             "Insufficient liquidity"
         );
 
-        tokenCTX.transferFrom(msg.sender, address(this), amountTKA);
+        tokenCTX.transferFrom(msg.sender, address(this), _amount);
         tokenWCX.transfer(msg.sender, exchangeAmount);
         return exchangeAmount;
     }
 
-    function swapFromWCX(uint256 amountTKX) public returns (uint256) {
-        require(amountTKX > 0, "Amount must be greater than zero");
+    function swapFromWCX(uint256 _amount) public returns (uint256) {
+        require(_amount > 0, "Amount must be greater than zero");
         require(
-            tokenWCX.balanceOf(msg.sender) >= amountTKX,
+            tokenWCX.balanceOf(msg.sender) >= _amount,
             "Insufficient balance"
         );
 
-        uint256 exchangeA = amountTKX / ratioAX;
+        uint256 exchangeA = _amount / ratioAX;
         uint256 exchangeAmount = exchangeA - (exchangeA * fees) / 100;
         require(
             exchangeAmount > 0,
@@ -83,16 +86,16 @@ contract TokenSwap {
             "Insufficient liquidity"
         );
 
-        tokenWCX.transferFrom(msg.sender, address(this), amountTKX);
+        tokenWCX.transferFrom(msg.sender, address(this), _amount);
         tokenCTX.transfer(msg.sender, exchangeAmount);
         return exchangeAmount;
     }
 
-    function buyTokensCTX(uint256 amount) public payable onlyAdmin {
-        tokenCTX.buyTokens{value: msg.value}(amount);
+    function buyTokensCTX(uint256 _amount) public payable onlyAdmin {
+        tokenCTX.buyTokens{value: msg.value}(_amount);
     }
 
-    function buyTokensWCX(uint256 amount) public payable onlyAdmin {
-        tokenWCX.buyTokens{value: msg.value}(amount);
+    function buyTokensWCX(uint256 _amount) public payable onlyAdmin {
+        tokenWCX.buyTokens{value: msg.value}(_amount);
     }
 }

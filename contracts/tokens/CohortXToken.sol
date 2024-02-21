@@ -21,13 +21,13 @@ contract CohortXToken is ERC20 {
 
     function buyTokens(uint256 numberOfTokens) external payable {
         // keep track of number of tokens sold
-        // require that a contract have enough tokens
-        // require tha value sent is equal to token price
-        // trigger sell event
         require(msg.value >= mul(numberOfTokens, tokenPrice));
+        // require that a contract have enough tokens
         require(this.balanceOf(address(this)) >= numberOfTokens);
+        // require that value sent is equal to token price
         require(this.transfer(msg.sender, numberOfTokens));
 
+        // trigger sell event
         tokensSold += numberOfTokens;
     }
 }

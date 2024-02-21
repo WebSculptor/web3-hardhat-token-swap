@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx hardhat compile && npx hardhat test"
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test test/TokenSwap.ts",
+    "deploy": "npx hardhat run scripts/deploy.ts --network sepolia"
   },
   "keywords": [],
   "author": "",
